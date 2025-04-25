@@ -1,0 +1,33 @@
+# 웹 프레임워크
+fastapi==0.95.1
+uvicorn==0.22.0
+python-multipart==0.0.6
+
+# 데이터베이스
+SQLAlchemy==2.0.12
+
+# AI 및 이미지 처리
+anthropic==0.5.0
+Pillow==9.5.0
+moviepy==1.0.3
+
+# 비동기 작업 처리
+celery==5.2.7
+redis==4.5.5
+
+# HTTP 클라이언트
+requests==2.30.0
+
+# 웹 크롤링 (네이버 블로그 게시용)
+selenium==4.9.1
+
+# 유틸리티
+python-dotenv==1.0.0
+pydantic==1.10.7
+
+# Google API (유튜브 API 사용시)
+google-api-python-client==2.86.0
+google-auth-oauthlib==1.0.0
+
+# 로깅
+loguru==0.7.0

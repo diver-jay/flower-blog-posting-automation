@@ -21,7 +21,7 @@ from infrastructure.ai.claude_service import ClaudeClient
 
 logger = logging.getLogger(__name__)
 
-@celery_app.task(bind=True, max_retries=3)
+@celery_app.task(bind=True, max_retries=3, name='celery.local.process_flower_content')
 def process_flower_content(self, post_id: str) -> Dict[str, Any]:
     """
     꽃 사진에 대한 모든 콘텐츠 생성 및 발행 작업을 처리합니다.

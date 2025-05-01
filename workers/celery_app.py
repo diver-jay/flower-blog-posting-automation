@@ -111,7 +111,8 @@ def create_celery_app():
     app = Celery(
         'flower_tasks',
         broker=broker_url,
-        backend=result_backend
+        backend=result_backend,
+        include=['workers.tasks']
     )
     
     # Celery 설정

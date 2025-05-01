@@ -1,0 +1,56 @@
+# Python 바이트 코드 캐시 파일
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C 확장 모듈
+*.so
+
+# 배포 및 패키징
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# 유닛 테스트 및 커버리지 보고서
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# 가상 환경
+venv/
+ENV/
+env/
+.venv/
+.env/
+
+# IDE 관련 파일
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Environments 
+*.env
+*.db

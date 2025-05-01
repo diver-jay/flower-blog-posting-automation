@@ -46,7 +46,7 @@ def create_app() -> FastAPI:
 def register_routes(app: FastAPI):
     """라우터를 등록합니다."""
     
-    @app.post("/upload/", response_model=FlowerPost)
+    @app.post("/upload", response_model=FlowerPost)
     async def upload_flower_images(
         background_tasks: BackgroundTasks,
         images: List[UploadFile] = File(...),
@@ -107,7 +107,7 @@ def register_routes(app: FastAPI):
         
         return saved_post
 
-    @app.get("/posts/", response_model=List[FlowerPost])
+    @app.get("/posts", response_model=List[FlowerPost])
     async def get_posts(
         repository: PostRepository = Depends(get_post_repository),
     ):
@@ -124,3 +124,26 @@ def register_routes(app: FastAPI):
         if not post:
             raise HTTPException(status_code=404, detail="Post not found")
         return post
+    
+    @app.delete("/posts/{post_id}", response_model=dict)
+    async def delete_post(
+        post_id: str,
+        repository: PostRepository = Depends(get_post_repository),
+    ):
+        """ID로 특정 포스트를 삭제합니다."""
+        post = repository.find_by_id(post_id)
+        if not post:
+            raise HTTPException(status_code=404, detail="Post not found")
+        
+        # 포스트 삭제
+        repository.delete(post_id)
+        
+        # 연관된 이미지 파일 삭제 (선택적)
+        # 디렉토리가 존재하는 경우에만 삭제 시도
+        settings = get_settings()
+        post_dir = f"{settings.UPLOAD_DIR}/{post_id}"
+        if os.path.exists(post_dir):
+            import shutil
+            shutil.rmtree(post_dir)
+        
+        return {"message": "Post deleted successfully", "id": post_id}

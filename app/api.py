@@ -147,3 +147,40 @@ def register_routes(app: FastAPI):
             shutil.rmtree(post_dir)
         
         return {"message": "Post deleted successfully", "id": post_id}
+    
+    @app.delete("/posts", response_model=dict)
+    async def delete_all_posts(
+    repository: PostRepository = Depends(get_post_repository),
+    ):
+    """모든 포스트를 삭제합니다."""
+    # 모든 포스트 조회
+    posts = repository.find_all()
+    
+    # 삭제된 포스트 수 카운트
+    deleted_count = 0
+    
+    # 설정 가져오기
+    settings = get_settings()
+    
+    # 각 포스트 삭제
+    for post in posts:
+        try:
+            # 데이터베이스에서 삭제
+            repository.delete(post.id)
+            
+            # 관련 파일 삭제
+            post_dir = f"{settings.UPLOAD_DIR}/{post.id}"
+            if os.path.exists(post_dir):
+                import shutil
+                shutil.rmtree(post_dir)
+            
+            deleted_count += 1
+        except Exception as e:
+            # 삭제 중 오류가 발생해도 계속 진행
+            print(f"포스트 삭제 중 오류 발생: {post.id}, 오류: {str(e)}")
+    
+    return {
+        "message": "All posts deleted successfully",
+        "deleted_count": deleted_count,
+        "total_count": len(posts)
+    }
